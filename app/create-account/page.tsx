@@ -1,10 +1,10 @@
 "use client";
 
-import FormInput from "@/components/form-input";
-import FormBtn from "@/components/form-btn";
+import Input from "@/components/input";
 import SocialLogin from "@/components/social-login";
 import {useActionState} from "react";
 import {createAccount} from "@/app/create-account/actions";
+import Button from "@/components/button";
 
 export default function CreateAccount() {
   const [state, dispatch] = useActionState(createAccount, null);
@@ -18,11 +18,43 @@ export default function CreateAccount() {
       </div>
 
       <form action={dispatch} className="flex flex-col gap-3">
-        <FormInput name="username" type="text" placeholder="Username" required={true} errors={state?.fieldErrors.username}  />
-        <FormInput name="email" type="email" placeholder="Eamil" required={true} errors={state?.fieldErrors.email}  />
-        <FormInput name="password" type="password" placeholder="Password" required={true} errors={state?.fieldErrors.password} />
-        <FormInput name="confirm_password" type="password" placeholder="Confirm Password" required={true} errors={state?.fieldErrors.confirm_password} />
-        <FormBtn text="Create account" />
+        <Input
+          name="username"
+          type="text"
+          placeholder="Username"
+          required={true}
+          errors={state?.fieldErrors.username}
+          minLength={3}
+          maxLength={10}
+          defaultValue={(state?.formData.username || "") as string}
+        />
+        <Input
+          name="email"
+          type="email"
+          placeholder="Eamil"
+          required={true}
+          errors={state?.fieldErrors.email}
+          defaultValue={(state?.formData.email || "") as string}
+        />
+        <Input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required={true}
+          errors={state?.fieldErrors.password}
+          minLength={4}
+          defaultValue={(state?.formData.password || "") as string}
+        />
+        <Input
+          name="confirm_password"
+          type="password"
+          placeholder="Confirm Password"
+          required={true}
+          errors={state?.fieldErrors.confirm_password}
+          minLength={4}
+          defaultValue={(state?.formData.confirm_password || "") as string}
+        />
+        <Button text="Create account" />
       </form>
 
       <SocialLogin />
